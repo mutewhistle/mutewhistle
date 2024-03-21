@@ -1,0 +1,23 @@
+[package]
+name = "rust"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+grin_wallet_impls = { git = "https://github.com/mwcproject/mwc-wallet", branch = "master" }
+grin_wallet_libwallet = { git = "https://github.com/mwcproject/mwc-wallet", branch = "master" }
+grin_wallet_api = { git = "https://github.com/mwcproject/mwc-wallet", branch = "master" }
+grin_wallet_controller = { git = "https://github.com/mwcproject/mwc-wallet", branch = "master" }
+grin_wallet_config = { git = "https://github.com/mwcproject/mwc-wallet", branch = "master" }
+grin_wallet_util = { git = "https://github.com/mwcproject/mwc-wallet", branch = "master" }
+
+tempfile = "3.10.1"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1"
+serde_derive = "1"
+
+
+[build-dependencies]
+built = "0.3"
