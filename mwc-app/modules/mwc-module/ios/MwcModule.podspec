@@ -6,8 +6,9 @@ Pod::Spec.new do |s|
   s.author         = ''
   s.homepage       = 'https://docs.expo.dev/modules/'
   s.platforms      = { :ios => '13.4', :tvos => '13.4' }
-  s.source         = { git: '' }
+  s.source         = { :path => '.' }
   s.static_framework = true
+  s.license      = "MIT"
 
   s.dependency 'ExpoModulesCore'
 
@@ -18,4 +19,6 @@ Pod::Spec.new do |s|
   }
 
   s.source_files = "**/*.{h,m,mm,swift,hpp,cpp}"
+  
+  s.vendored_libraries = "rust/libmwc_wallet_lib.a"
 end

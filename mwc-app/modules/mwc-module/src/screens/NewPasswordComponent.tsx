@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Button from '../components/CustomButton';
 import FormTextInput from '../components/FormTextInput';
 import { router } from 'expo-router';
+import { initWallet } from '../../../mwc-module';
 // import FormTextInput from 'src/components/FormTextInput'
 // import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 // import { RootState } from 'src/common/redux'
@@ -28,6 +29,11 @@ type Props = NavigationProps<'NewPassword'> & {
 function NewPasswordComponent({ route, setIsNew, navigation, newWallet }: Props) {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const handleSubmit = () => {
+    const teststring = initWallet(password)
+
+    console.log(teststring);
+  };
 
   return (
    <>
@@ -64,10 +70,12 @@ function NewPasswordComponent({ route, setIsNew, navigation, newWallet }: Props)
           <Spacer /> */}
         <View>
           <Button
+
             testID="SubmitPassword"
             title={'Continue'}
             onPress={async () => {
-               router.push('/(home)/ViewPaperKey');
+              //  router.push('/(home)/ViewPaperKey');
+               handleSubmit();
               // if (newWallet) {
               //   const mnemonic = await WalletBridge.seedNew(32)
               //   navigation.navigate('ViewPaperKey', {
