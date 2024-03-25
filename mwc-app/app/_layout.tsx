@@ -10,10 +10,12 @@ import { Slot, SplashScreen } from "expo-router";
 import { useFonts } from "expo-font";
 import Entypo from "@expo/vector-icons/Entypo";
 import * as Font from "expo-font";
-import { SessionProvider } from "../modules/mwc-module/src/auth/ctx";
+
 import AnimatedAppLoader from "../modules/mwc-module/src/screens/animation/AnimatedAppLoader";
 import Constants from "expo-constants";
-import MainScreen from "../modules/mwc-module/src/screens/MainScreen";
+import { SessionProvider } from "../modules/mwc-module/src/auth/ctx";
+import { Provider } from "react-redux";
+import { store } from "../modules/mwc-module/src/store/store";
 
 export default function AppLayout() {
   const colorScheme = useColorScheme();
@@ -59,6 +61,7 @@ export default function AppLayout() {
   return (
     <>
       <AnimatedAppLoader image={{ uri: Constants.expoConfig?.splash?.image }}>
+        <Provider store={store}>
         <SessionProvider>
           <ThemeProvider
             value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
@@ -67,7 +70,8 @@ export default function AppLayout() {
               <Slot />
             </View>
           </ThemeProvider>
-        </SessionProvider>
+          </SessionProvider>
+          </Provider>
       </AnimatedAppLoader>
     </>
   );

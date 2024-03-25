@@ -4,8 +4,10 @@ Shhh.
 ## Run IOS APP
 - npm i
 - npm run
-## start App
+## start App if no pod install done yet
 - npx expo start -c 
+## start App if  pod install and api communication
+- npm run ios 
 
 ## iOS Build
 

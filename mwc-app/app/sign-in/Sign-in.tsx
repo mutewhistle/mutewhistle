@@ -5,8 +5,8 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../modules/mwc-module/src/store/hooks";
-import SignInSlice, { login } from "./SignInSlice";
-import { useSession } from "../../modules/mwc-module/src/auth/ctx";
+import  { login } from "./SignInSlice";
+import { Props } from "../(home)/Home";
 
 const SignIn: React.FC<Props> = ({}) => {
   // const { signIn } = useSession();
@@ -39,3 +39,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+export default SignIn;
