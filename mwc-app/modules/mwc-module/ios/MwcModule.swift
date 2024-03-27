@@ -23,9 +23,33 @@ public class MwcModule: Module {
       return "Hello world! 👋"
     }
 
-    AsyncFunction("initWallet") { (a: String) -> String in
-      return get_test_string(a)
+    Function("getTestString") { (username: String, password: String) -> String in
+    // Convert Swift strings to C strings
+    guard let usernameCString = username.cString(using: .utf8) else {
+        print("Error converting username to C string")
+        return ""
     }
+    
+    guard let passwordCString = password.cString(using: .utf8) else {
+        print("Error converting password to C string")
+        return ""
+    }
+
+    // Call the Rust function
+    guard let resultCString = get_test_string(usernameCString, passwordCString) else {
+        print("Error calling get_test_string")
+        return ""
+    }
+
+    // Convert the result from C string to Swift string
+    let result = String(cString: resultCString)
+
+    // Free the memory allocated by the Rust function
+    free(resultCString)
+
+    return result
+}
+
 
     // AsyncFunction("initWallet") { (a: Int32, b: Int32) -> Int32 in
     //   return rust_add(a, b)

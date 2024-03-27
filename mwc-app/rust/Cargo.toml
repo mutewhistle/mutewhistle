@@ -1,5 +1,5 @@
 [package]
-name = "mwc_wallet_lib"
+name = "mutewhistle_wallet"
 version = "0.1.0"
 edition = "2018"
 
@@ -26,4 +26,5 @@ cbindgen = "0.26.0"
 
 
 [lib]
+name = "wallet"
 crate-type = ["staticlib", "cdylib"]

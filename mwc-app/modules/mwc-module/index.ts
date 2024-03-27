@@ -18,7 +18,12 @@ export function hello(): string {
 }
 
 export function initWallet(password: string) {
-	return MwcModule.initWallet();
+	return MwcModule.getTestString(password, password);
+}
+
+export function rustAuthenticate(user: string, password: string): Promise<string> {
+	// Call the Swift function using the native module wrapper
+	return MwcModule.getTestString(user, password);
 }
 
 export async function setValueAsync(value: string) {

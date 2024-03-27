@@ -1,71 +1,67 @@
-use super::*;
-use std::ffi::{CStr, CString};
+use std::ffi::{CString, CStr};
 use std::os::raw::c_char;
+use std::ptr;
+use super::*;
 
-macro_rules! unwrap_string_to_c (
-    ($func:expr, $error:expr) => (
-        match $func {
-            Ok(res) => {
-                *$error = 0;
-                CString::new(res.to_owned()).unwrap().into_raw()
-            }
-            Err(e) => {
-                *$error = 1;
-                CString::new(
-                    serde_json::to_string(&format!("{}",e)).unwrap()).unwrap().into_raw()
-            }
-        }
-        ));
-
-macro_rules! unwrap_to_c (
-    ($func:expr, $error:expr) => (
-        match $func {
-            Ok(res) => {
-                *$error = 0;
-                Box::into_raw(Box::new(res)) as usize
-            }
-            Err(e) => {
-                *$error = 1;
-                CString::new(
-                    serde_json::to_string(&format!("{}",e)).unwrap()).unwrap().into_raw() as usize
-            }
-        }
-        ));
-
-fn cstr_to_rust(s: *const c_char) -> String {
-    unsafe { CStr::from_ptr(s).to_string_lossy().into_owned() }
-}
 
 #[no_mangle]
-pub unsafe extern "C" fn cstr_free(s: *mut c_char) {
-    if s.is_null() {
-        return;
+pub extern "C" fn rust_add(left: i32, right: i32) -> i32 {
+    left + right
+}
+
+
+#[no_mangle]
+pub extern "C" fn get_test_string(username: *const c_char, password: *const c_char) -> *mut c_char {
+    unsafe {
+        // Convert username and password from C strings to Rust strings
+        let username_cstr = CStr::from_ptr(username);
+        let password_cstr = CStr::from_ptr(password);
+
+        // Perform the necessary operations
+        let username_str = match username_cstr.to_str() {
+            Ok(s) => s,
+            Err(e) => {
+                eprintln!("Error converting username to string: {}", e);
+                return ptr::null_mut();
+            }
+        };
+        
+        let password_str = match password_cstr.to_str() {
+            Ok(s) => s,
+            Err(e) => {
+                eprintln!("Error converting password to string: {}", e);
+                return ptr::null_mut();
+            }
+        };
+
+        println!("Received username: {}, password: {}", username_str, password_str);
+
+        let result = get_string(username_str.to_string(),password_str.to_string());
+
+        // Convert the result back to a C string and return it
+        CString::into_raw(CString::new(result).unwrap()) as *mut _
     }
-    CString::from_raw(s);
 }
 
-// Lib Functions
-#[no_mangle]
-pub unsafe extern "C" fn c_init_wallet(
-    config_str: *const c_char,
-    phrase: *const c_char,
-    password: *const c_char,
-    error: *mut u8,
-) -> *const c_char {
-    unwrap_string_to_c!(
-        init_wallet(
-            &cstr_to_rust(config_str),
-            &cstr_to_rust(phrase),
-            &cstr_to_rust(password),
-        ),
-        error
-    )
-}
 
-#[no_mangle]
-pub unsafe extern "C" fn c_get_test_string(
-    password: *const c_char,
-    error: *mut u8,
-) -> *const c_char {
-    unwrap_string_to_c!(get_test_string(cstr_to_rust(password)), error)
+
+
+
+/// cbindgen:ignore
+#[cfg(target_os = "android")]
+pub mod android {
+    use crate::rust_add;
+    use jni::JNIEnv;
+    use jni::objects::JClass;
+    use jni::sys::jint;
+    
+    #[no_mangle]
+    pub unsafe extern "C" fn Java_expo_modules_myrustmodule_MyRustModule_rustAdd(
+        _env: JNIEnv,
+        _class: JClass,
+        a: jint,
+        b: jint
+    ) -> jint {
+        rust_add(a, b)
+    }
 }

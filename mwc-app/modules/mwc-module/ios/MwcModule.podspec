@@ -20,5 +20,5 @@ Pod::Spec.new do |s|
 
   s.source_files = "**/*.{h,m,mm,swift,hpp,cpp}"
   
-  s.vendored_libraries = "rust/libmwc_wallet_lib.a"
+  s.vendored_libraries = "rust/libwallet.a"
 end

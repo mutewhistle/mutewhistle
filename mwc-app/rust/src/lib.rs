@@ -247,6 +247,9 @@ fn get_wallet_phrase(config_json: &str, password: &str) {
     println!("{}", &*ZeroingString::from(password));
 }
 
-fn get_test_string(password: String) -> Result<String, Error> {
-    Ok("Hello World".to_owned())
+
+
+fn get_string(username: String, password: String) -> String {
+    let result = format!("Your username is {} and your password is {}", username, password);
+    result
 }
