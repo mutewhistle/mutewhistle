@@ -15,7 +15,8 @@ import AnimatedAppLoader from "../modules/mwc-module/src/screens/animation/Anima
 import Constants from "expo-constants";
 import { SessionProvider } from "../modules/mwc-module/src/auth/ctx";
 import { Provider } from "react-redux";
-import { store } from "../modules/mwc-module/src/store/store";
+import { persistor, store } from "../modules/mwc-module/src/store/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 export default function AppLayout() {
   const colorScheme = useColorScheme();
@@ -61,17 +62,21 @@ export default function AppLayout() {
   return (
     <>
       <AnimatedAppLoader image={{ uri: Constants.expoConfig?.splash?.image }}>
-        <Provider store={store}>
-        <SessionProvider>
-          <ThemeProvider
-            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-          >
-            <View style={styles.container} onLayout={onLayoutRootView}>
-              <Slot />
-            </View>
-          </ThemeProvider>
-          </SessionProvider>
+        <React.StrictMode>
+          <Provider store={store}>
+            <SessionProvider>
+              <ThemeProvider
+                value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+              >
+                <PersistGate loading={null} persistor={persistor}>
+                  <View style={styles.container} onLayout={onLayoutRootView}>
+                    <Slot />
+                  </View>
+                </PersistGate>
+              </ThemeProvider>
+            </SessionProvider>
           </Provider>
+        </React.StrictMode>
       </AnimatedAppLoader>
     </>
   );

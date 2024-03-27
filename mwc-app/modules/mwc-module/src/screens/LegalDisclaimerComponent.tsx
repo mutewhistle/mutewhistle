@@ -1,6 +1,6 @@
 
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -8,6 +8,10 @@ import { Link, router } from 'expo-router';
 import Button from '../components/CustomButton';
 import Checkbox from 'expo-checkbox';
 import { colorTheme } from '../common/color';
+import { acceptLegal, selectLegal } from '../../../../app/(home)/LegalDisclaimerSlice';
+import { useAppDispatch } from '../store/hooks';
+import { store } from '../store/store';
+import { useSelector } from 'react-redux';
 
 interface OwnProps {
   acceptLegal: (value: boolean) => void;
@@ -19,10 +23,15 @@ export const termsUrl = 'https://ironbelly.app/terms'
 export const privacyUrl = 'https://ironbelly.app/privacy'
 export const grinUrl = 'https://grin-tech.org/'
 
-const LegalDisclaimerComponent = ({ acceptLegal, navigation, route }: any) => {
-  // const { nextScreen } = route?.params
-  const [checked, setChecked] = useState(false)
-  // const [styles, theme] = useThemedStyles(themedStyles)
+const LegalDisclaimerComponent = () => {
+  const [checked, setChecked] = useState(false);
+  const dispatch = useAppDispatch();
+   const isChecked = useSelector(selectLegal);
+
+  useEffect(() => {
+    if(isChecked)setChecked(isChecked)
+  }, [isChecked])
+  
   return (
     <SafeAreaView edges={['bottom']} style={styles.wrapper}>
       <View style={styles.main}>
@@ -42,7 +51,8 @@ const LegalDisclaimerComponent = ({ acceptLegal, navigation, route }: any) => {
         <Checkbox
         
         onValueChange={() => {
-          setChecked(!checked)
+            setChecked(!checked);
+           
         }}
           value={checked}
            color={colorTheme.primaryColor}
@@ -64,7 +74,7 @@ const LegalDisclaimerComponent = ({ acceptLegal, navigation, route }: any) => {
         style={{alignSelf: 'stretch'}}
         disabled={!checked}
         onPress={() => {
-          //acceptLegal(true)
+           dispatch(acceptLegal(!checked));
            router.push('/(home)/NewPassword');
         }}
         />
