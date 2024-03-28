@@ -17,13 +17,15 @@ export function hello(): string {
 	return MwcModule.hello();
 }
 
-export function initWallet(password: string) {
-	return MwcModule.getTestString(password, password);
+export function initWallet(config: string, phrase: string, password: string) {
+
+	return MwcModule.initWallet(config, phrase, password);
 }
 
-export function rustAuthenticate(user: string, password: string): Promise<string> {
-	// Call the Swift function using the native module wrapper
-	return MwcModule.getTestString(user, password);
+
+
+export function getTestString(password: string) {
+	return MwcModule.getTestString(password, password);
 }
 
 export async function setValueAsync(value: string) {

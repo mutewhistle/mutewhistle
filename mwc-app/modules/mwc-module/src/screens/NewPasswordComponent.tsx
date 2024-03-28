@@ -30,7 +30,14 @@ function NewPasswordComponent({ route, setIsNew, navigation, newWallet }: Props)
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const handleSubmit = () => {
-    const teststring = initWallet(password)
+    const _config=JSON.stringify({
+      data_file_dir: ".mwc",
+      check_node_api_http_addr: "",
+      chain: "floornet",
+    });
+    const _phrase="";
+  
+    const teststring = initWallet(_config,_phrase,password);
 
     console.log(teststring);
   };
