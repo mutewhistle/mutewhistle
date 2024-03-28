@@ -25,12 +25,25 @@ function NewPasswordComponent(props: Props) {
   },[newWallet])
 
   const handleSubmit = () => {
-    const mnemonic = dispatch(callInitWallet(password));
-    if (!newWallet && mnemonic) router.push('/(home)/VerifyPaperKey');
+
+  const _config = JSON.stringify({
+    data_file_dir: ".mwc",
+    check_node_api_http_addr: "",
+    chain: "floornet",
+  });
+  const _phrase = "";
+
+    const teststring = initWallet(_config, _phrase, password);
+    
+    console.log(teststring);
+    
+    //Commenting out until backend is ready
+    // const mnemonic = dispatch(callInitWallet(password));
+    // if (!newWallet && mnemonic) router.push('/(home)/VerifyPaperKey');
       
-    else router.push({
-      pathname: "/(home)/ViewPaperKey", params: { fromSettings: false, mnemonic }
-      })
+    // else router.push({
+    //   pathname: "/(home)/ViewPaperKey", params: { fromSettings: false, mnemonic }
+    //   })
   };
 
   return (
