@@ -46,10 +46,10 @@ const currencyPersistRatesConfig = {
   safelist: ['rates', 'lastUpdated'],
 }
 
-const rootReducer:any = combineReducers({ 
-  signIn:SignInSlice,
-  legal:persistReducer<RootState>(appPersistConfig,LegalDisclaimerSlice)
-})
+const rootReducer: any = combineReducers({
+  signIn: SignInSlice,
+  app: persistReducer<RootState>(appPersistConfig, LegalDisclaimerSlice),
+});
 
 
 const persistedReducer: any = persistReducer<RootState, Action>(rootPersistConfig, rootReducer)

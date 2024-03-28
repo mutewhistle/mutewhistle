@@ -12,7 +12,7 @@ type Props = {
   walletCreated: boolean;
   isFloonet: boolean;
   //settings: SettingsState;
-  legalAccepted: boolean;
+  //legalAccepted: boolean;
 };
 
 

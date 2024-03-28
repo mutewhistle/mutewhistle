@@ -63,8 +63,8 @@ export default function AppLayout() {
     <>
       <AnimatedAppLoader image={{ uri: Constants.expoConfig?.splash?.image }}>
         <React.StrictMode>
-          <Provider store={store}>
-            <SessionProvider>
+          <SessionProvider>
+            <Provider store={store}>
               <ThemeProvider
                 value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
               >
@@ -74,8 +74,8 @@ export default function AppLayout() {
                   </View>
                 </PersistGate>
               </ThemeProvider>
-            </SessionProvider>
-          </Provider>
+            </Provider>
+          </SessionProvider>
         </React.StrictMode>
       </AnimatedAppLoader>
     </>

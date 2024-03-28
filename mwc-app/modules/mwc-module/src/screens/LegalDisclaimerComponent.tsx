@@ -74,8 +74,7 @@ const LegalDisclaimerComponent = () => {
         style={{alignSelf: 'stretch'}}
         disabled={!checked}
         onPress={() => {
-           dispatch(acceptLegal(!checked));
-           router.push('/(home)/NewPassword');
+           dispatch(acceptLegal(checked));
         }}
         />
         </View>
