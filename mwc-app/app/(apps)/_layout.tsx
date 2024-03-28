@@ -2,8 +2,15 @@ import { Redirect, Slot } from "expo-router";
 
 import { Text } from "react-native";
 import { useSession } from "../../modules/mwc-module/src/auth/ctx";
+import { useEffect } from "react";
+import { checkApplicationSupportDirectory, checkSlatesDirectory } from "../../modules/mwc-module/src/common";
+
+
+checkSlatesDirectory();
+checkApplicationSupportDirectory();
 
 export default function App() {
+
   const { session, isLoading } = useSession();
 
   // You can keep the splash screen open, or render a loading screen like we do here.

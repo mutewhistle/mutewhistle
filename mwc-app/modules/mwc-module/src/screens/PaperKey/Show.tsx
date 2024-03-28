@@ -33,6 +33,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Button from '../../components/CustomButton';
 import { router } from 'expo-router';
+import CopyButton from '../../components/CopyButton';
 // import CopyButton from 'src/components/CopyButton'
 
 interface OwnProps {
@@ -63,8 +64,8 @@ function Show({ route, navigation }: any) {
         </Text>
       </View>
       <View style={styles.copyButton}>
-        {/* <CopyButton content={mnemonic} subject="Paper Key" /> */}
-         <Button
+        <CopyButton content="mnemonic" subject="Paper Key" />
+         {/* <Button
             testID="PaperKey"
             title={'Paper Key'}
             onPress={async () => {
@@ -83,7 +84,7 @@ function Show({ route, navigation }: any) {
               // }
             }}
             // disabled={!(password && password === confirmPassword)}
-          />
+          /> */}
       </View>
       {/* <FlexGrow />fromSettings */}
        <View style={{flexWrap: 'wrap',

@@ -8,35 +8,38 @@ import { Link, router } from 'expo-router';
 import Button from '../components/CustomButton';
 import Checkbox from 'expo-checkbox';
 import { colorTheme } from '../common/color';
-import { acceptLegal, selectLegal } from '../../../../app/(home)/LegalDisclaimerSlice';
-import { useAppDispatch } from '../store/hooks';
-import { store } from '../store/store';
-import { useSelector } from 'react-redux';
+import {
+  acceptLegal,
+  selectLegal,
+} from "../../../../app/(home)/LegalDisclaimerSlice";
+import { useAppDispatch } from "../store/hooks";
+import { store } from "../store/store";
+import { useSelector } from "react-redux";
 
 interface OwnProps {
   acceptLegal: (value: boolean) => void;
 }
 
-//type Props = NavigationProps<'LegalDisclaimer'> & OwnProps;
+export const termsUrl = "https://ironbelly.app/terms";
+export const privacyUrl = "https://ironbelly.app/privacy";
+export const grinUrl = "https://grin-tech.org/";
 
-export const termsUrl = 'https://ironbelly.app/terms'
-export const privacyUrl = 'https://ironbelly.app/privacy'
-export const grinUrl = 'https://grin-tech.org/'
-
-const LegalDisclaimerComponent = () => {
+const LegalDisclaimerComponent = (props: OwnProps) => {
   const [checked, setChecked] = useState(false);
   const dispatch = useAppDispatch();
-   const isChecked = useSelector(selectLegal);
+  const isChecked = useSelector(selectLegal);
 
   useEffect(() => {
-    if(isChecked)setChecked(isChecked)
-  }, [isChecked])
-  
+    if (isChecked) setChecked(isChecked);
+  }, [isChecked]);
+
   return (
-    <SafeAreaView edges={['bottom']} style={styles.wrapper}>
+    <SafeAreaView edges={["bottom"]} style={styles.wrapper}>
       <View style={styles.main}>
         <Text style={styles.text}>Mwc - mobile wallet for </Text>
-        <Link style={styles.text} href={grinUrl} >mimblewimble</Link>
+        <Link style={styles.text} href={grinUrl}>
+          mimblewimble
+        </Link>
         <Text style={styles.text}>. </Text>
         <Text style={styles.text}>
           Please, if you are not familiar with the blockchain technology, learn
@@ -47,40 +50,37 @@ const LegalDisclaimerComponent = () => {
           start using the app.
         </Text>
       </View>
-      <View style={{ flexDirection: 'row'}}>
+      <View style={{ flexDirection: "row" }}>
         <Checkbox
-        
-        onValueChange={() => {
+          onValueChange={() => {
             setChecked(!checked);
-           
-        }}
+          }}
           value={checked}
-           color={colorTheme.primaryColor}
-      
-      />
-         <View style={styles.rightText}>
-            <Text style={styles.checkboxText}>I agree to the </Text>
-            <Link href={termsUrl}>Terms of Use</Link>
-            <Text style={styles.checkboxText}> and the </Text>
-            <Link href={privacyUrl}>Privacy Policy</Link>
-            <Text style={styles.checkboxText}>.</Text>
-          </View>
-      </View>
-      
-      <View style={{  marginTop: 10}}>
-      <Button 
-        testID="IAgree"
-        title={'Next'}
-        style={{alignSelf: 'stretch'}}
-        disabled={!checked}
-        onPress={() => {
-           dispatch(acceptLegal(checked));
-        }}
+          color={colorTheme.primaryColor}
         />
+        <View style={styles.rightText}>
+          <Text style={styles.checkboxText}>I agree to the </Text>
+          <Link href={termsUrl}>Terms of Use</Link>
+          <Text style={styles.checkboxText}> and the </Text>
+          <Link href={privacyUrl}>Privacy Policy</Link>
+          <Text style={styles.checkboxText}>.</Text>
         </View>
+      </View>
+
+      <View style={{ marginTop: 10 }}>
+        <Button
+          testID="IAgree"
+          title={"Next"}
+          style={{ alignSelf: "stretch" }}
+          disabled={!checked}
+          onPress={() => {
+            dispatch(acceptLegal(checked));
+          }}
+        />
+      </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   wrapper: {

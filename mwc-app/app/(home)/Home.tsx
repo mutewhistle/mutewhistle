@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import {  Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Button from "../../modules/mwc-module/src/components/CustomButton";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
+import { useSelector } from "react-redux";
+import { selectLegal } from "./LegalDisclaimerSlice";
 
 
 type Props = {
@@ -12,16 +14,23 @@ type Props = {
   walletCreated: boolean;
   isFloonet: boolean;
   //settings: SettingsState;
-  //legalAccepted: boolean;
+  legalAccepted: boolean;
 };
 
 
 
 const Home: React.FC<Props> = ({ }) => {
+  const router = useRouter();
+  const legalAccepted = useSelector(selectLegal);
   
   const onNewWallet = (isNew: boolean) => {
-    console.log({ isNew });
-     router.push('/(home)/LegalDisclaimer');
+    
+    if (!legalAccepted) {
+      router.push({ pathname: "/(home)/Password", params: { isNew: isNew } })
+    }
+    else {
+      router.push({ pathname: "/(home)/LegalDisclaimer", params: { isNew: isNew } })
+    }
   }
 
   return (
@@ -44,7 +53,7 @@ const Home: React.FC<Props> = ({ }) => {
         textStyle={[]}
         testID="NewWalletButton"
         // ... Other props
-      />
+      /> 
       <Button
         onPress={() =>onNewWallet(false)}
         onLongPress={() => {

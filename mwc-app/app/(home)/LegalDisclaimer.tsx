@@ -1,9 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { router } from "expo-router";
+import { router, useGlobalSearchParams } from "expo-router";
 import LegalDisclaimerComponent from "../../modules/mwc-module/src/screens/LegalDisclaimerComponent";
 
-const LegalDisclaimer: React.FC<any> = ({}) => {
+const LegalDisclaimer = () => {
+   const glob = useGlobalSearchParams();
+  console.log({glob});
+  
 
 
   return (

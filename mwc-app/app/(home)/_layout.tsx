@@ -45,6 +45,12 @@ export default function HomeLayout() {
         options={{
           //title: route.params?.title,
         }}
+        />
+        <Stack.Screen
+        name="Password"
+        options={{
+          //title: route.params?.title,
+        }}
       />
     </Stack>
  
