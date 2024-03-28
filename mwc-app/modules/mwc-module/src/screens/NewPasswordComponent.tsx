@@ -5,70 +5,84 @@ import Button from '../components/CustomButton';
 import FormTextInput from '../components/FormTextInput';
 import { router } from 'expo-router';
 import { initWallet } from '../../../mwc-module';
-import { useAppDispatch } from '../store/hooks';
-import { callInitWallet } from '../../../../app/(home)/NewPasswordSlice';
+// import FormTextInput from 'src/components/FormTextInput'
+// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+// import { RootState } from 'src/common/redux'
+// import { Error, NavigationProps, Dispatch } from 'src/common/types'
 
-type Props = {
+// import {
+//   Wrapper,
+//   UnderHeaderBlock,
+//   Spacer,
+//   FlexGrow,
+//   UnderHeaderBlockText,
+// } from 'src/common'
+// import { Button, Text } from 'src/components/CustomFont'
+// import WalletBridge from 'src/bridges/wallet'
+
+type Props = NavigationProps<'NewPassword'> & {
   error: Error | undefined | null;
   newWallet: boolean;
   setIsNew: (value: boolean) => void;
 };
 
-function NewPasswordComponent(props: Props) {
-  const dispatch = useAppDispatch();
-  const newWallet: Props['newWallet'] = true;
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
-  useEffect(() => {
-    
-  },[newWallet])
-
+function NewPasswordComponent({ route, setIsNew, navigation, newWallet }: Props) {
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const handleSubmit = () => {
-    const mnemonic = dispatch(callInitWallet(password));
-    if (!newWallet && mnemonic) router.push('/(home)/VerifyPaperKey');
-      
-    else router.push({
-      pathname: "/(home)/ViewPaperKey", params: { fromSettings: false, mnemonic }
-      })
+    const _config=JSON.stringify({
+      data_file_dir: ".mwc",
+      check_node_api_http_addr: "",
+      chain: "floornet",
+    });
+    const _phrase="";
+  
+    const teststring = initWallet(_config,_phrase,password);
+
+    console.log(teststring);
   };
 
   return (
-    <>
-      <View style={styles.wrapper}>
-        <Text>Choose a strong password to protect your new wallet.</Text>
-        <FormTextInput
-          testID="Password"
-          returnKeyType={"next"}
-          autoFocus={true}
-          secureTextEntry={true}
-          onChange={setPassword}
-          value={password}
-          title="Password"
-        />
-        {/* <Spacer /> */}
-        <FormTextInput
-          testID="ConfirmPassword"
-          returnKeyType={"done"}
-          autoFocus={false}
-          secureTextEntry={true}
-          onChange={setConfirmPassword}
-          onFocus={() => {
-            // setTimeout(() => {
-            //   scrollView.current?.scrollToEnd()
-            // }, 100)
-          }}
-          value={confirmPassword}
-          title="Confirm password"
-        />
-        {/* <FlexGrow />
+   <>
+        <View style={styles.wrapper}>
+     
+        <Text>
+          Choose a strong password to protect your new wallet.
+        </Text>
+          <FormTextInput
+            testID="Password"
+            returnKeyType={'next'}
+            autoFocus={true}
+            secureTextEntry={true}
+            onChange={setPassword}
+            value={password}
+            title="Password"
+          />
+          {/* <Spacer /> */}
+          <FormTextInput
+            testID="ConfirmPassword"
+            returnKeyType={'done'}
+            autoFocus={false}
+            secureTextEntry={true}
+            onChange={setConfirmPassword}
+            onFocus={() => {
+              // setTimeout(() => {
+              //   scrollView.current?.scrollToEnd()
+              // }, 100)
+            }}
+            value={confirmPassword}
+            title="Confirm password"
+          />
+          {/* <FlexGrow />
           <Spacer /> */}
         <View>
           <Button
+
             testID="SubmitPassword"
-            title={"Continue"}
+            title={'Continue'}
             onPress={async () => {
-              handleSubmit();
+              //  router.push('/(home)/ViewPaperKey');
+               handleSubmit();
               // if (newWallet) {
               //   const mnemonic = await WalletBridge.seedNew(32)
               //   navigation.navigate('ViewPaperKey', {
@@ -85,10 +99,10 @@ function NewPasswordComponent(props: Props) {
             }}
             disabled={!(password && password === confirmPassword)}
           />
+          </View>
         </View>
-      </View>
     </>
-  );
+  )
 }
 
 export default NewPasswordComponent;
